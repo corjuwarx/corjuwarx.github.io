@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/.well-known/discord",
-      "destination": "/.well-known/discord"
+      "destination": "/public/.well-known/discord"
     },
     {
       "source": "/(.*)",
