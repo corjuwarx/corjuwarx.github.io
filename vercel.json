@@ -1,9 +1,0 @@
-{
-  "cleanUrls": true,
-  "rewrites": [
-    {
-      "source": "/.well-known/discord",
-      "destination": "/public/.well-known/discord"
-    }
-  ]
-}
