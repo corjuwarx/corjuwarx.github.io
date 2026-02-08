@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="UKVFKWq6SknvT3IqHlenZpEEKnSesRpD_MyiYwlub7M" />
+
     <title> ᴄᴏʀᴊᴜᴡᴀʀx </title>
-    <!-- SVG Favicon -->
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='black'/><circle cx='50' cy='50' r='30' fill='white'/><circle cx='50' cy='50' r='15' fill='black'/></svg>">
     <link
@@ -72,7 +73,6 @@
             height: 100%;
             z-index: 0;
             opacity: 0.6;
-            /* Slight dim for prominence of text */
         }
 
         /* --- Minimalist Cursor --- */
@@ -111,7 +111,6 @@
             text-align: center;
             position: relative;
             mix-blend-mode: difference;
-            /* Interactions with background */
         }
 
         .main-title {
@@ -122,7 +121,6 @@
             color: #fff;
             text-transform: uppercase;
             cursor: pointer;
-            /* Signal interactivity */
             transition: letter-spacing 0.5s ease;
         }
 
@@ -195,7 +193,6 @@
             }
         }
 
-        /* --- Mobile Adaptation --- */
         @media (max-width: 768px) {
 
             .cursor-inner,
@@ -205,12 +202,10 @@
 
             body {
                 cursor: auto;
-                /* Restore default cursor */
             }
 
             .main-title {
                 font-size: 9vw;
-                /* Reduced from 12vw for better fit */
             }
 
             .subtitle {
@@ -237,15 +232,8 @@
     <div class="cursor-inner"></div>
     <div class="cursor-outer"></div>
 
-    <!-- Brand Logo SVG -->
     <a href="#" class="brand-logo">
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <!-- User requested specific logo: Black Outer -> White Middle -> Black Inner.
-                 Since background is #000, a black outer circle is invisible.
-                 I will add a white STROKE or glow to make it visible, or invert.
-                 Let's try: White Outer Ring, Black Middle, White Inner. It keeps the same "concentric" vibe.
-                 OR strictly adhere: Black Circle with White Ring inside.
-                 To make "Black Circle" visible on Black BG, I'll need a shadow or border. -->
             <circle cx="50" cy="50" r="48" fill="black" stroke="white" stroke-width="2" />
             <circle cx="50" cy="50" r="30" fill="white" />
             <circle cx="50" cy="50" r="15" fill="black" />
@@ -272,16 +260,13 @@
     </footer>
 
     <script>
-        /* --- Scramble Text Effect --- */
         const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const h1 = document.querySelector(".main-title");
-
         let interval = null;
 
         const scramble = () => {
             let iteration = 0;
             clearInterval(interval);
-
             interval = setInterval(() => {
                 h1.innerText = h1.innerText
                     .split("")
@@ -292,55 +277,44 @@
                         return letters[Math.floor(Math.random() * 26)];
                     })
                     .join("");
-
                 if (iteration >= h1.dataset.value.length) {
                     clearInterval(interval);
                 }
-
                 iteration += 1 / 3;
             }, 30);
         }
 
         h1.onmouseover = scramble;
-        // Trigger once on load
         setTimeout(scramble, 1000);
 
-        /* --- Custom Cursor & Magnetic Buttons --- */
         const cursorInner = document.querySelector('.cursor-inner');
         const cursorOuter = document.querySelector('.cursor-outer');
         const magneticBtns = document.querySelectorAll('.magnetic-btn');
 
         let mouseX = 0, mouseY = 0;
-        let outlineX = 0, outlineY = 0;
 
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-
             cursorInner.style.left = mouseX + 'px';
             cursorInner.style.top = mouseY + 'px';
-
-            // Subtle trail for outer cursor
             cursorOuter.animate({
                 left: mouseX + "px",
                 top: mouseY + "px"
             }, { duration: 500, fill: "forwards" });
         });
 
-        // Magnetic Effect Logic (Desktop Only)
         if (window.matchMedia("(min-width: 769px)").matches) {
             magneticBtns.forEach(btn => {
                 btn.addEventListener('mousemove', (e) => {
                     const rect = btn.getBoundingClientRect();
                     const x = e.clientX - rect.left - rect.width / 2;
                     const y = e.clientY - rect.top - rect.height / 2;
-
                     btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px) scale(1.2)`;
                     cursorOuter.style.width = '60px';
                     cursorOuter.style.height = '60px';
                     cursorOuter.style.background = 'rgba(255, 255, 255, 0.1)';
                 });
-
                 btn.addEventListener('mouseleave', () => {
                     btn.style.transform = 'translate(0, 0) scale(1)';
                     cursorOuter.style.width = '40px';
@@ -350,13 +324,10 @@
             });
         }
 
-        /* --- Fluid/Network Background --- */
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
-
-        let width, height;
-        let points = [];
-        const connectivity = 120; // Connection distance
+        let width, height, points = [];
+        const connectivity = 120;
         const mouseRadius = 200;
 
         function resize() {
@@ -369,40 +340,25 @@
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.originX = this.x; // Remember original position
-                this.originY = this.y;
-                this.vx = (Math.random() - 0.5) * 0.5; // Very slow natural movement
+                this.vx = (Math.random() - 0.5) * 0.5;
                 this.vy = (Math.random() - 0.5) * 0.5;
                 this.size = Math.random() * 1.5 + 0.5;
             }
-
             update() {
-                // Natural flow
                 this.x += this.vx;
                 this.y += this.vy;
-
-                // Bounce off edges
                 if (this.x < 0 || this.x > width) this.vx *= -1;
                 if (this.y < 0 || this.y > height) this.vy *= -1;
-
-                // Mouse interaction (Fluid push)
                 const dx = mouseX - this.x;
                 const dy = mouseY - this.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
-
                 if (dist < mouseRadius) {
                     const angle = Math.atan2(dy, dx);
                     const force = (mouseRadius - dist) / mouseRadius;
-                    const pushX = Math.cos(angle) * force * 5; // Push strength
-                    const pushY = Math.sin(angle) * force * 5;
-
-                    this.x -= pushX;
-                    this.y -= pushY;
-                } else {
-                    // Return slightly to original flow (optional, keeps it chaotic but controlled)
+                    this.x -= Math.cos(angle) * force * 5;
+                    this.y -= Math.sin(angle) * force * 5;
                 }
             }
-
             draw() {
                 ctx.fillStyle = '#fff';
                 ctx.beginPath();
@@ -419,21 +375,15 @@
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
-
-            // Update and draw points
             for (let i = 0; i < points.length; i++) {
                 points[i].update();
                 points[i].draw();
-
-                // Draw lines
                 for (let j = i; j < points.length; j++) {
                     const dx = points[i].x - points[j].x;
                     const dy = points[i].y - points[j].y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
-
                     if (dist < connectivity) {
                         ctx.beginPath();
-                        // Opacity based on distance
                         ctx.strokeStyle = `rgba(255, 255, 255, ${1 - dist / connectivity})`;
                         ctx.lineWidth = 0.5;
                         ctx.moveTo(points[i].x, points[i].y);
@@ -448,9 +398,7 @@
         window.addEventListener('resize', resize);
         resize();
         animate();
-
     </script>
-
 </body>
 
 </html>
