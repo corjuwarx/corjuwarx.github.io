@@ -4,10 +4,6 @@
     {
       "source": "/.well-known/discord",
       "destination": "/public/.well-known/discord"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
   ]
 }
